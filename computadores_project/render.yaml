@@ -1,0 +1,28 @@
+services:
+  - type: web
+    name: computadores-app
+    env: docker
+    plan: free
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /index
+    envVars:
+      - key: SPRING_PROFILES_ACTIVE
+        value: prod
+      - key: DATABASE_URL
+        fromDatabase:
+          name: computadores-db
+          property: connectionString
+      - key: DATABASE_USERNAME
+        fromDatabase:
+          name: computadores-db
+          property: user
+      - key: DATABASE_PASSWORD
+        fromDatabase:
+          name: computadores-db
+          property: password
+
+databases:
+  - name: computadores-db
+    databaseName: computadores
+    user: computadores_user
+    plan: free 

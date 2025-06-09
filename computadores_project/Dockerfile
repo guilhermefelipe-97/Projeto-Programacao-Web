@@ -1,3 +1,4 @@
+# Estágio de build
 FROM maven:3.8.5-openjdk-17 AS build
 
 # Diretório de trabalho
@@ -16,7 +17,7 @@ COPY src ./src
 RUN mvn package -DskipTests
 
 # Imagem final
-FROM openjdk:17-jdk-slim
+FROM eclipse-temurin:17-jre-alpine
 
 # Diretório de trabalho
 WORKDIR /app
@@ -27,5 +28,9 @@ COPY --from=build /app/target/*.jar app.jar
 # Expõe a porta 8080
 EXPOSE 8080
 
+# Variáveis de ambiente
+ENV JAVA_OPTS="-Xmx512m -Xms256m"
+ENV SPRING_PROFILES_ACTIVE="prod"
+
 # Comando para executar a aplicação
-ENTRYPOINT ["java", "-jar", "app.jar"]
+ENTRYPOINT ["sh", "-c", "java $JAVA_OPTS -jar app.jar"]

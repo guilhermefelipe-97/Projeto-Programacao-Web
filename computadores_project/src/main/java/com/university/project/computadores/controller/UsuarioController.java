@@ -53,26 +53,48 @@ public class UsuarioController {
     public String salvarUsuario(@Valid @ModelAttribute("usuario") Usuario usuario, 
                                BindingResult result, 
                                RedirectAttributes redirectAttributes) {
+        System.out.println("=== INÍCIO DO PROCESSO DE CADASTRO ===");
+        System.out.println("Dados recebidos:");
+        System.out.println("- Username: " + usuario.getUsername());
+        System.out.println("- É admin? " + usuario.getIsAdmin());
+        
         // Verifica se há erros de validação
         if (result.hasErrors()) {
+            System.out.println("ERRO: Validação falhou");
+            result.getAllErrors().forEach(error -> System.out.println("- " + error.getDefaultMessage()));
             return "cadusuario";
         }
         
         // Verifica se o username já existe
         if (usuarioRepository.findByUsername(usuario.getUsername()).isPresent()) {
+            System.out.println("ERRO: Username já existe");
             result.rejectValue("username", "error.usuario", "Nome de usuário já existe");
             return "cadusuario";
         }
         
         // Codifica a senha usando BCrypt
+        String senhaOriginal = usuario.getPassword();
         usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
+        System.out.println("Senha codificada: " + usuario.getPassword());
         
         // Salva o usuário
-        usuarioRepository.save(usuario);
-        
-        // Adiciona mensagem de sucesso
-        redirectAttributes.addFlashAttribute("mensagem", "Usuário cadastrado com sucesso!");
-        
-        return "redirect:/login";
+        try {
+            usuarioRepository.save(usuario);
+            System.out.println("SUCESSO: Usuário salvo com ID: " + usuario.getId());
+            
+            // Adiciona mensagem de sucesso
+            redirectAttributes.addFlashAttribute("mensagem", "Usuário cadastrado com sucesso!");
+            
+            System.out.println("=== FIM DO PROCESSO DE CADASTRO (SUCESSO) ===");
+            return "redirect:/login";
+        } catch (Exception e) {
+            System.out.println("ERRO: Falha ao salvar usuário");
+            System.out.println("- Tipo: " + e.getClass().getName());
+            System.out.println("- Mensagem: " + e.getMessage());
+            System.out.println("=== FIM DO PROCESSO DE CADASTRO (ERRO) ===");
+            
+            result.rejectValue("username", "error.usuario", "Erro ao salvar usuário: " + e.getMessage());
+            return "cadusuario";
+        }
     }
 }

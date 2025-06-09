@@ -3,6 +3,7 @@ package com.university.project.computadores.config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -24,11 +25,30 @@ public class SecurityConfig {
 
     /**
      * Configura o encoder de senha para usar BCrypt.
-     * Tornar este método static resolve a dependência circular.
      */
     @Bean
-    public static PasswordEncoder passwordEncoder() { // <--- ADICIONADO 'static'
+    public static PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
+    }
+
+    /**
+     * Configura o provedor de autenticação.
+     */
+    @Bean
+    public DaoAuthenticationProvider authenticationProvider() {
+        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
+        authProvider.setUserDetailsService(userDetailsService);
+        authProvider.setPasswordEncoder(passwordEncoder());
+        return authProvider;
+    }
+
+    /**
+     * Configura o gerenciador de autenticação.
+     */
+    @Autowired
+    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(userDetailsService)
+            .passwordEncoder(passwordEncoder());
     }
 
     /**
@@ -39,7 +59,8 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests(authorize -> authorize
                         // Páginas públicas
-                        .requestMatchers("/", "/index", "/login", "/cadusuario", "/salvarusuario", "/css/**", "/js/**", "/images/**").permitAll()
+                        .requestMatchers("/", "/index", "/login", "/cadusuario", "/salvarusuario", 
+                                       "/css/**", "/js/**", "/images/**", "/h2-console/**", "/error", "/.well-known/**").permitAll()
 
                         // Páginas restritas a administradores
                         .requestMatchers("/admin", "/cadastro", "/salvar", "/editar", "/deletar", "/restaurar").hasRole("ADMIN")
@@ -59,19 +80,18 @@ public class SecurityConfig {
                         .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                         .logoutSuccessUrl("/index")
                         .permitAll()
+                )
+                .csrf(csrf -> csrf
+                        .ignoringRequestMatchers("/h2-console/**")
+                        .requireCsrfProtectionMatcher(request -> {
+                            String method = request.getMethod();
+                            return !method.equals("GET") && !method.equals("HEAD") && !method.equals("TRACE") && !method.equals("OPTIONS");
+                        })
+                )
+                .headers(headers -> headers
+                        .frameOptions().sameOrigin()
                 );
 
         return http.build();
-    }
-
-    /**
-     * Configura o AuthenticationManager para usar nosso UserDetailsService e PasswordEncoder.
-     * Este método agora pode usar o PasswordEncoder estático sem problemas.
-     */
-    @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        auth
-                .userDetailsService(userDetailsService)
-                .passwordEncoder(passwordEncoder()); // Chama o método estático
     }
 }

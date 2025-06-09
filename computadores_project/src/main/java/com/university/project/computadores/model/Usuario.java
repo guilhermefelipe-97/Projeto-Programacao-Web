@@ -14,7 +14,6 @@ import java.util.Objects;
 /**
  * Representa a entidade Usuario no banco de dados.
  * Esta classe implementa UserDetails para integração com Spring Security.
- * Getters, setters, construtores e métodos UserDetails implementados manualmente.
  */
 @Entity
 public class Usuario implements UserDetails {
@@ -54,7 +53,7 @@ public class Usuario implements UserDetails {
         this.email = email;
     }
 
-    // Getters e Setters manuais
+    // Getters e Setters
     public Long getId() {
         return id;
     }
@@ -63,7 +62,6 @@ public class Usuario implements UserDetails {
         this.id = id;
     }
 
-    // Implementação explícita de getUsername() de UserDetails
     @Override
     public String getUsername() {
         return username;
@@ -73,7 +71,6 @@ public class Usuario implements UserDetails {
         this.username = username;
     }
 
-    // Implementação explícita de getPassword() de UserDetails
     @Override
     public String getPassword() {
         return password;
@@ -107,12 +104,12 @@ public class Usuario implements UserDetails {
         this.email = email;
     }
 
-    // Implementação dos métodos restantes de UserDetails
+    // Implementação dos métodos de UserDetails
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<GrantedAuthority> authorities = new ArrayList<>();
         authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
-        if (Boolean.TRUE.equals(this.isAdmin)) { // Verificação segura de Boolean
+        if (Boolean.TRUE.equals(this.isAdmin)) {
             authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
         }
         return authorities;
@@ -120,25 +117,25 @@ public class Usuario implements UserDetails {
 
     @Override
     public boolean isAccountNonExpired() {
-        return true; // Lógica padrão, pode ser customizada se necessário
+        return true;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return true; // Lógica padrão
+        return true;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return true; // Lógica padrão
+        return true;
     }
 
     @Override
     public boolean isEnabled() {
-        return true; // Lógica padrão
+        return true;
     }
 
-    // equals e hashCode (gerados pela IDE ou manualmente, baseados no ID)
+    // equals e hashCode
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -152,14 +149,12 @@ public class Usuario implements UserDetails {
         return Objects.hash(id);
     }
 
-    // toString (opcional)
     @Override
     public String toString() {
         return "Usuario{" +
                 "id=" + id +
-                ", username=\'" + username + "\'" +
+                ", username='" + username + '\'' +
                 ", isAdmin=" + isAdmin +
-                // Não inclua a senha no toString por segurança
                 '}';
     }
 }

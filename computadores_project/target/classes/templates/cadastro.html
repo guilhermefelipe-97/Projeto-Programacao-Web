@@ -28,6 +28,9 @@
                     </div>
                     <div class="card-body">
                         <form th:action="@{/salvar}" th:object="${computador}" method="post">
+                            <!-- Token CSRF -->
+                            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                            
                             <!-- Campo oculto para ID (usado na edição) -->
                             <input type="hidden" th:field="*{id}" />
                             

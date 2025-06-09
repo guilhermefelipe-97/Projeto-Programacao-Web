@@ -21,11 +21,11 @@
                 <div class="col-md-3 mb-4">
                     <h5>Links Úteis</h5>
                     <ul class="footer-links">
-                        <li><a href="#">Sobre Nós</a></li>
-                        <li><a href="#">Contato</a></li>
-                        <li><a href="#">Política de Privacidade</a></li>
-                        <li><a href="#">Termos e Condições</a></li>
-                        <li><a href="#">FAQ</a></li>
+                        <li><a th:href="@{/sobre}">Sobre Nós</a></li>
+                        <li><a th:href="@{/contato}">Contato</a></li>
+                        <li><a th:href="@{/privacidade}">Política de Privacidade</a></li>
+                        <li><a th:href="@{/termos}">Termos e Condições</a></li>
+                        <li><a th:href="@{/faq}">FAQ</a></li>
                     </ul>
                 </div>
                 
@@ -33,11 +33,11 @@
                 <div class="col-md-3 mb-4">
                     <h5>Categorias</h5>
                     <ul class="footer-links">
-                        <li><a href="#">Notebooks</a></li>
-                        <li><a href="#">Desktops</a></li>
-                        <li><a href="#">Periféricos</a></li>
-                        <li><a href="#">Componentes</a></li>
-                        <li><a href="#">Acessórios</a></li>
+                        <li><a th:href="@{/computadores}">Computadores</a></li>
+                        <li><a th:href="@{/notebooks}">Notebooks</a></li>
+                        <li><a th:href="@{/perifericos}">Periféricos</a></li>
+                        <li><a th:href="@{/componentes}">Componentes</a></li>
+                        <li><a th:href="@{/acessorios}">Acessórios</a></li>
                     </ul>
                 </div>
                 
@@ -71,18 +71,7 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
         
         <!-- Script personalizado -->
-        <script>
-            // Script para fechar alertas automaticamente após 5 segundos
-            document.addEventListener('DOMContentLoaded', function() {
-                setTimeout(function() {
-                    const alerts = document.querySelectorAll('.alert');
-                    alerts.forEach(function(alert) {
-                        const bsAlert = new bootstrap.Alert(alert);
-                        bsAlert.close();
-                    });
-                }, 5000);
-            });
-        </script>
+        <script th:src="@{/js/main.js}"></script>
     </div>
 </body>
 </html>

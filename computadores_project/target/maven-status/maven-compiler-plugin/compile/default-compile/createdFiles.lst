@@ -1,10 +1,10 @@
-com\university\project\computadores\ComputadoresApplication.class
 com\university\project\computadores\repository\ComputadorRepository.class
 com\university\project\computadores\controller\ComputadorController.class
 com\university\project\computadores\controller\UsuarioController.class
 com\university\project\computadores\controller\CarrinhoController.class
+com\university\project\computadores\model\Computador.class
+com\university\project\computadores\config\SecurityConfig.class
+com\university\project\computadores\ComputadoresApplication.class
 com\university\project\computadores\repository\UsuarioRepository.class
 com\university\project\computadores\service\CustomUserDetailsService.class
-com\university\project\computadores\model\Computador.class
 com\university\project\computadores\model\Usuario.class
-com\university\project\computadores\config\SecurityConfig.class
