@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: head(title='Layout Base')">
+    <title>Layout Base</title>
+</head>
+<body>
+    <!-- Layout base para ser estendido por outras páginas -->
+    
+    <!-- Header superior -->
+    <div th:replace="fragments/header :: top-header"></div>
+    
+    <!-- Header principal -->
+    <div th:replace="fragments/header :: main-header"></div>
+    
+    <!-- Navegação principal -->
+    <div th:replace="fragments/header :: main-nav"></div>
+    
+    <!-- Alertas -->
+    <div th:replace="fragments/header :: alerts"></div>
+    
+    <!-- Conteúdo principal - será substituído pelas páginas que estenderem este layout -->
+    <main class="container my-4">
+        <div th:replace="${content}">
+            <!-- O conteúdo específico de cada página será inserido aqui -->
+            <p>Conteúdo padrão que será substituído</p>
+        </div>
+    </main>
+    
+    <!-- Footer -->
+    <div th:replace="fragments/footer :: footer"></div>
+    
+    <!-- Scripts -->
+    <div th:replace="fragments/footer :: scripts"></div>
+</body>
+</html>

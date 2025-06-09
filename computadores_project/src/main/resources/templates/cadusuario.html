@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout :: head(title='Cadastro de Usuário')}"> <!-- Atualizado -->
+    <title>Cadastro de Usuário</title>
+</head>
+<body>
+    <!-- Header superior -->
+    <div th:replace="~{fragments/header :: top-header}"></div> <!-- Atualizado -->
+    
+    <!-- Header principal -->
+    <div th:replace="~{fragments/header :: main-header}"></div> <!-- Atualizado -->
+    
+    <!-- Navegação principal -->
+    <div th:replace="~{fragments/header :: main-nav}"></div> <!-- Atualizado -->
+    
+    <!-- Alertas -->
+    <div th:replace="~{fragments/header :: alerts}"></div> <!-- Atualizado -->
+    
+    <!-- Conteúdo principal -->
+    <main class="container my-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header bg-primary text-white">
+                        <h3 class="card-title mb-0">Cadastro de Usuário</h3>
+                    </div>
+                    <div class="card-body">
+                        <!-- Adicionado campo CSRF -->
+                        <form th:action="@{/salvarusuario}" th:object="${usuario}" method="post">
+                            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                            
+                            <!-- Nome de Usuário -->
+                            <div class="mb-3">
+                                <label for="username" class="form-label">Nome de Usuário</label>
+                                <input type="text" class="form-control" id="username" th:field="*{username}" 
+                                       th:classappend="${#fields.hasErrors('username')} ? 'is-invalid'" required>
+                                <div class="invalid-feedback" th:if="${#fields.hasErrors('username')}" th:errors="*{username}">
+                                    Erro no nome de usuário
+                                </div>
+                            </div>
+                            
+                            <!-- Senha -->
+                            <div class="mb-3">
+                                <label for="password" class="form-label">Senha</label>
+                                <input type="password" class="form-control" id="password" th:field="*{password}" 
+                                       th:classappend="${#fields.hasErrors('password')} ? 'is-invalid'" required>
+                                <div class="invalid-feedback" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">
+                                    Erro na senha
+                                </div>
+                            </div>
+                            
+                            <!-- Nome Completo (opcional) -->
+                            <div class="mb-3">
+                                <label for="nome" class="form-label">Nome Completo (opcional)</label>
+                                <input type="text" class="form-control" id="nome" th:field="*{nome}">
+                            </div>
+                            
+                            <!-- Email (opcional) -->
+                            <div class="mb-3">
+                                <label for="email" class="form-label">Email (opcional)</label>
+                                <input type="email" class="form-control" id="email" th:field="*{email}">
+                            </div>
+                            
+                            <!-- Checkbox para Admin -->
+                            <div class="mb-3 form-check">
+                                <input type="checkbox" class="form-check-input" id="isAdmin" th:field="*{isAdmin}">
+                                <label class="form-check-label" for="isAdmin">Usuário é Administrador</label>
+                            </div>
+                            
+                            <!-- Botões -->
+                            <div class="d-grid gap-2">
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-user-plus me-2"></i> Cadastrar
+                                </button>
+                                <a th:href="@{/login}" class="btn btn-outline-secondary">
+                                    <i class="fas fa-arrow-left me-2"></i> Voltar para Login
+                                </a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <!-- Footer -->
+    <div th:replace="~{fragments/footer :: footer}"></div> <!-- Atualizado -->
+    
+    <!-- Scripts -->
+    <div th:replace="~{fragments/footer :: scripts}"></div> <!-- Atualizado -->
+</body>
+</html>
+

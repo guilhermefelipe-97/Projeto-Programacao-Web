@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout :: head(title='Cadastro de Computador')">
+    <title>Cadastro de Computador</title>
+</head>
+<body>
+    <!-- Header superior -->
+    <div th:replace="fragments/header :: top-header"></div>
+    
+    <!-- Header principal -->
+    <div th:replace="fragments/header :: main-header"></div>
+    
+    <!-- Navegação principal -->
+    <div th:replace="fragments/header :: main-nav"></div>
+    
+    <!-- Alertas -->
+    <div th:replace="fragments/header :: alerts"></div>
+    
+    <!-- Conteúdo principal -->
+    <main class="container my-4">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header bg-primary text-white">
+                        <h3 class="card-title mb-0" th:text="${computador.id == null ? 'Cadastrar Novo Computador' : 'Editar Computador'}">
+                            Cadastrar/Editar Computador
+                        </h3>
+                    </div>
+                    <div class="card-body">
+                        <form th:action="@{/salvar}" th:object="${computador}" method="post">
+                            <!-- Campo oculto para ID (usado na edição) -->
+                            <input type="hidden" th:field="*{id}" />
+                            
+                            <!-- Campo oculto para imageUrl (mantém o valor na edição) -->
+                            <input type="hidden" th:field="*{imageUrl}" />
+                            
+                            <!-- Campo oculto para isDeleted (mantém o valor na edição) -->
+                            <input type="hidden" th:field="*{isDeleted}" />
+                            
+                            <!-- Nome -->
+                            <div class="mb-3">
+                                <label for="nome" class="form-label">Nome do Computador</label>
+                                <input type="text" class="form-control" id="nome" th:field="*{nome}" 
+                                       th:classappend="${#fields.hasErrors('nome')} ? 'is-invalid'" />
+                                <div class="invalid-feedback" th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}">
+                                    Erro no nome
+                                </div>
+                            </div>
+                            
+                            <!-- Marca -->
+                            <div class="mb-3">
+                                <label for="marca" class="form-label">Marca</label>
+                                <input type="text" class="form-control" id="marca" th:field="*{marca}" 
+                                       th:classappend="${#fields.hasErrors('marca')} ? 'is-invalid'" />
+                                <div class="invalid-feedback" th:if="${#fields.hasErrors('marca')}" th:errors="*{marca}">
+                                    Erro na marca
+                                </div>
+                            </div>
+                            
+                            <!-- Processador -->
+                            <div class="mb-3">
+                                <label for="processador" class="form-label">Processador</label>
+                                <input type="text" class="form-control" id="processador" th:field="*{processador}" 
+                                       th:classappend="${#fields.hasErrors('processador')} ? 'is-invalid'" />
+                                <div class="invalid-feedback" th:if="${#fields.hasErrors('processador')}" th:errors="*{processador}">
+                                    Erro no processador
+                                </div>
+                            </div>
+                            
+                            <!-- Memória RAM -->
+                            <div class="mb-3">
+                                <label for="memoriaRam" class="form-label">Memória RAM</label>
+                                <input type="text" class="form-control" id="memoriaRam" th:field="*{memoriaRam}" 
+                                       th:classappend="${#fields.hasErrors('memoriaRam')} ? 'is-invalid'" />
+                                <div class="invalid-feedback" th:if="${#fields.hasErrors('memoriaRam')}" th:errors="*{memoriaRam}">
+                                    Erro na memória RAM
+                                </div>
+                            </div>
+                            
+                            <!-- Armazenamento -->
+                            <div class="mb-3">
+                                <label for="armazenamento" class="form-label">Armazenamento</label>
+                                <input type="text" class="form-control" id="armazenamento" th:field="*{armazenamento}" 
+                                       th:classappend="${#fields.hasErrors('armazenamento')} ? 'is-invalid'" />
+                                <div class="invalid-feedback" th:if="${#fields.hasErrors('armazenamento')}" th:errors="*{armazenamento}">
+                                    Erro no armazenamento
+                                </div>
+                            </div>
+                            
+                            <!-- Preço -->
+                            <div class="mb-3">
+                                <label for="preco" class="form-label">Preço (R$)</label>
+                                <input type="number" step="0.01" class="form-control" id="preco" th:field="*{preco}" 
+                                       th:classappend="${#fields.hasErrors('preco')} ? 'is-invalid'" />
+                                <div class="invalid-feedback" th:if="${#fields.hasErrors('preco')}" th:errors="*{preco}">
+                                    Erro no preço
+                                </div>
+                            </div>
+                            
+                            <!-- Descrição -->
+                            <div class="mb-3">
+                                <label for="descricao" class="form-label">Descrição (opcional)</label>
+                                <textarea class="form-control" id="descricao" th:field="*{descricao}" rows="3"></textarea>
+                            </div>
+                            
+                            <!-- Botões -->
+                            <div class="d-flex justify-content-between">
+                                <a th:href="@{/admin}" class="btn btn-secondary">
+                                    <i class="fas fa-arrow-left me-2"></i> Voltar
+                                </a>
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-save me-2"></i> Salvar
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <!-- Footer -->
+    <div th:replace="fragments/footer :: footer"></div>
+    
+    <!-- Scripts -->
+    <div th:replace="fragments/footer :: scripts"></div>
+</body>
+</html>

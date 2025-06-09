@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout :: head(title='Carrinho de Compras')">
+    <title>Carrinho de Compras</title>
+</head>
+<body>
+    <!-- Header superior -->
+    <div th:replace="fragments/header :: top-header"></div>
+    
+    <!-- Header principal -->
+    <div th:replace="fragments/header :: main-header"></div>
+    
+    <!-- Navegação principal -->
+    <div th:replace="fragments/header :: main-nav"></div>
+    
+    <!-- Alertas -->
+    <div th:replace="fragments/header :: alerts"></div>
+    
+    <!-- Conteúdo principal -->
+    <main class="container my-4">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2>Carrinho de Compras</h2>
+            <a th:href="@{/index}" class="btn btn-outline-primary">
+                <i class="fas fa-arrow-left me-2"></i> Continuar Comprando
+            </a>
+        </div>
+        
+        <!-- Tabela de itens do carrinho -->
+        <div class="table-responsive">
+            <table class="table table-striped table-hover">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Imagem</th>
+                        <th>Nome</th>
+                        <th>Marca</th>
+                        <th>Especificações</th>
+                        <th>Preço</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="computador, status : ${carrinho}">
+                        <td>
+                            <img th:src="${computador.imageUrl}" alt="Imagem do Computador" style="width: 80px; height: 80px; object-fit: cover;">
+                        </td>
+                        <td th:text="${computador.nome}">Nome do Computador</td>
+                        <td th:text="${computador.marca}">Marca</td>
+                        <td>
+                            <p class="mb-1"><strong>Processador:</strong> <span th:text="${computador.processador}">Intel Core i7</span></p>
+                            <p class="mb-1"><strong>Memória:</strong> <span th:text="${computador.memoriaRam}">16GB</span></p>
+                            <p class="mb-0"><strong>Armazenamento:</strong> <span th:text="${computador.armazenamento}">512GB SSD</span></p>
+                        </td>
+                        <td th:text="${'R$ ' + #numbers.formatDecimal(computador.preco, 1, 'POINT', 2, 'COMMA')}">R$ 0,00</td>
+                        <td>
+                            <a th:href="@{/removerDoCarrinho(index=${status.index})}" class="btn btn-sm btn-danger" 
+                               onclick="return confirm('Tem certeza que deseja remover este item do carrinho?')">
+                                <i class="fas fa-trash me-1"></i> Remover
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="4" class="text-end"><strong>Valor Total:</strong></td>
+                        <td colspan="2"><strong th:text="${'R$ ' + #numbers.formatDecimal(valorTotal, 1, 'POINT', 2, 'COMMA')}">R$ 0,00</strong></td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+        
+        <!-- Botão de finalizar compra -->
+        <div class="d-flex justify-content-end mt-4">
+            <a th:href="@{/finalizarCompra}" class="btn btn-success btn-lg" 
+               onclick="return confirm('Tem certeza que deseja finalizar a compra?')">
+                <i class="fas fa-check-circle me-2"></i> Finalizar Compra
+            </a>
+        </div>
+    </main>
+    
+    <!-- Footer -->
+    <div th:replace="fragments/footer :: footer"></div>
+    
+    <!-- Scripts -->
+    <div th:replace="fragments/footer :: scripts"></div>
+</body>
+</html>

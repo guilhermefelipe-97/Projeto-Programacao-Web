@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout :: head(title='Página Inicial')">
+    <title>Página Inicial</title>
+</head>
+<body>
+    <!-- Header superior -->
+    <div th:replace="fragments/header :: top-header"></div>
+    
+    <!-- Header principal -->
+    <div th:replace="fragments/header :: main-header"></div>
+    
+    <!-- Navegação principal -->
+    <div th:replace="fragments/header :: main-nav"></div>
+    
+    <!-- Alertas -->
+    <div th:replace="fragments/header :: alerts"></div>
+    
+    <!-- Conteúdo principal -->
+    <main class="container my-4">
+        <h2 class="mb-4">Nossos Computadores</h2>
+        
+        <!-- Mensagem quando não há computadores -->
+        <div th:if="${#lists.isEmpty(computadores)}" class="alert alert-info">
+            Não há computadores disponíveis no momento.
+        </div>
+        
+        <!-- Grid de produtos -->
+        <div class="row">
+            <div th:each="computador : ${computadores}" class="col-md-4 mb-4">
+                <div class="product-card">
+                    <div class="text-center">
+                        <img th:src="${computador.imageUrl}" class="product-img" alt="Imagem do Computador">
+                    </div>
+                    <div class="p-3">
+                        <h5 class="product-title" th:text="${computador.nome}">Nome do Computador</h5>
+                        <p class="text-muted mb-1" th:text="${computador.marca}">Marca</p>
+                        <p class="mb-1">
+                            <strong>Processador:</strong> <span th:text="${computador.processador}">Intel Core i7</span>
+                        </p>
+                        <p class="mb-1">
+                            <strong>Memória:</strong> <span th:text="${computador.memoriaRam}">16GB</span>
+                        </p>
+                        <p class="mb-1">
+                            <strong>Armazenamento:</strong> <span th:text="${computador.armazenamento}">512GB SSD</span>
+                        </p>
+                        <p class="product-price mb-3" th:text="${'R$ ' + #numbers.formatDecimal(computador.preco, 1, 'POINT', 2, 'COMMA')}">R$ 0,00</p>
+                        
+                        <div class="d-grid">
+                            <a th:href="@{/adicionarCarrinho(id=${computador.id})}" class="btn btn-primary">
+                                <i class="fas fa-shopping-cart me-2"></i> Adicionar ao Carrinho
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <!-- Footer -->
+    <div th:replace="fragments/footer :: footer"></div>
+    
+    <!-- Scripts -->
+    <div th:replace="fragments/footer :: scripts"></div>
+</body>
+</html>

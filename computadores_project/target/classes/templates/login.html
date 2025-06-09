@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{layout :: head(title='Login')}"> <!-- Atualizado para nova sintaxe de fragmento -->
+    <title>Login</title>
+</head>
+<body>
+    <!-- Header superior -->
+    <div th:replace="~{fragments/header :: top-header}"></div> <!-- Atualizado para nova sintaxe -->
+    
+    <!-- Header principal -->
+    <div th:replace="~{fragments/header :: main-header}"></div> <!-- Atualizado para nova sintaxe -->
+    
+    <!-- Navegação principal -->
+    <div th:replace="~{fragments/header :: main-nav}"></div> <!-- Atualizado para nova sintaxe -->
+    
+    <!-- Alertas -->
+    <div th:replace="~{fragments/header :: alerts}"></div> <!-- Atualizado para nova sintaxe -->
+    
+    <!-- Conteúdo principal -->
+    <main class="container my-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header bg-primary text-white">
+                        <h3 class="card-title mb-0">Login</h3>
+                    </div>
+                    <div class="card-body">
+                        <!-- Mensagem de erro de autenticação -->
+                        <div th:if="${param.error}" class="alert alert-danger">
+                            Nome de usuário ou senha inválidos.
+                        </div>
+                        
+                        <!-- Mensagem de logout -->
+                        <div th:if="${param.logout}" class="alert alert-success">
+                            Você foi desconectado com sucesso.
+                        </div>
+                        
+                        <!-- Formulário de login -->
+                        <!-- Linha 39 original -->
+                        <form th:action="@{/login}" method="post">
+                            <!-- Adicionado campo oculto para CSRF token (Boa prática com Spring Security) -->
+                            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                            
+                            <div class="mb-3">
+                                <label for="username" class="form-label">Nome de Usuário</label>
+                                <input type="text" class="form-control" id="username" name="username" required autofocus>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="password" class="form-label">Senha</label>
+                                <input type="password" class="form-control" id="password" name="password" required>
+                            </div>
+                            
+                            <div class="d-grid gap-2">
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-sign-in-alt me-2"></i> Entrar
+                                </button>
+                            </div>
+                        </form>
+                        
+                        <hr>
+                        
+                        <div class="text-center">
+                            <p>Não tem uma conta?</p>
+                            <a th:href="@{/cadusuario}" class="btn btn-outline-primary">
+                                <i class="fas fa-user-plus me-2"></i> Cadastre-se
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <!-- Footer -->
+    <div th:replace="~{fragments/footer :: footer}"></div> <!-- Atualizado para nova sintaxe -->
+    
+    <!-- Scripts -->
+    <div th:replace="~{fragments/footer :: scripts}"></div> <!-- Atualizado para nova sintaxe -->
+</body>
+</html>
+
