@@ -31,6 +31,16 @@ public class ComputadorController {
     @Autowired
     private ComputadorRepository computadorRepository;
     
+    @GetMapping("/")
+    public String redirecionarParaIndex() {
+        return "redirect:/index";
+    }
+    
+    @GetMapping("/computadores")
+    public String redirecionarParaComputadores() {
+        return "redirect:/index";
+    }
+    
     /**
      * Lista todos os computadores não deletados (soft delete).
      * Rota: /index (GET)

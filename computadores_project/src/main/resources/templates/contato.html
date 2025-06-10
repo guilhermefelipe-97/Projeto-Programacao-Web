@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout :: head(title='Contato')">
+    <title>Contato</title>
+</head>
+<body>
+    <!-- Header superior -->
+    <div th:replace="fragments/header :: top-header"></div>
+    
+    <!-- Header principal -->
+    <div th:replace="fragments/header :: main-header"></div>
+    
+    <!-- Navegação principal -->
+    <div th:replace="fragments/header :: main-nav"></div>
+    
+    <!-- Alertas -->
+    <div th:replace="fragments/header :: alerts"></div>
+    
+    <!-- Conteúdo principal -->
+    <main class="container my-4">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header bg-primary text-white">
+                        <h3 class="card-title mb-0">Entre em Contato</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h4 class="mb-4">Informações de Contato</h4>
+                                <ul class="list-unstyled">
+                                    <li class="mb-3">
+                                        <i class="fas fa-map-marker-alt text-primary me-2"></i>
+                                        <span th:text="${endereco}">Endereço</span>
+                                    </li>
+                                    <li class="mb-3">
+                                        <i class="fas fa-phone text-primary me-2"></i>
+                                        <span th:text="${telefone}">Telefone</span>
+                                    </li>
+                                    <li class="mb-3">
+                                        <i class="fas fa-envelope text-primary me-2"></i>
+                                        <span th:text="${email}">Email</span>
+                                    </li>
+                                    <li class="mb-3">
+                                        <i class="fas fa-clock text-primary me-2"></i>
+                                        <span th:text="${horario}">Horário de Funcionamento</span>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="col-md-6">
+                                <h4 class="mb-4">Localização</h4>
+                                <div class="ratio ratio-4x3">
+                                    <iframe src="https://www.google.com/maps?q=EAJ+UFRN+Macaíba+RN&output=embed" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <!-- Footer -->
+    <div th:replace="fragments/footer :: footer"></div>
+    
+    <!-- Scripts -->
+    <div th:replace="fragments/footer :: scripts"></div>
+</body>
+</html> 

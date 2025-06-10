@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout :: head(title='Sobre Nós')">
+    <title>Sobre Nós</title>
+</head>
+<body>
+    <!-- Header superior -->
+    <div th:replace="fragments/header :: top-header"></div>
+    
+    <!-- Header principal -->
+    <div th:replace="fragments/header :: main-header"></div>
+    
+    <!-- Navegação principal -->
+    <div th:replace="fragments/header :: main-nav"></div>
+    
+    <!-- Alertas -->
+    <div th:replace="fragments/header :: alerts"></div>
+    
+    <!-- Conteúdo principal -->
+    <main class="container my-4">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header bg-primary text-white">
+                        <h3 class="card-title mb-0">Sobre a TechStore</h3>
+                    </div>
+                    <div class="card-body">
+                        <p class="lead" th:text="${descricao}">
+                            TechStore é a sua loja especializada em computadores e tecnologia, oferecendo os melhores produtos com preços competitivos.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <!-- Footer -->
+    <div th:replace="fragments/footer :: footer"></div>
+    
+    <!-- Scripts -->
+    <div th:replace="fragments/footer :: scripts"></div>
+</body>
+</html> 
